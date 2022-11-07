@@ -52,9 +52,16 @@ public class Debat {
 		do {
 			try {
 				nbArg = sc.nextInt();
+				if (nbArg<=0) {
+					throw new ExceptionDebat("\nEntrez un nombre d'arguments supérieur ou égale à 0.");
+				}
 				condition = false;
 				
-			} catch (InputMismatchException e) {
+			}catch (ExceptionDebat e) {
+				sc.nextLine();
+				System.out.println(e.getMessage());
+			}
+			catch (InputMismatchException e) {
 				System.out.print("Erreur, entrez un entier\n--> :");
 				sc.nextLine();
 			}
@@ -74,7 +81,7 @@ public class Debat {
 					
 			
 					menuContradiction();
-					System.out.println("\n--> : ");
+					System.out.print("\n--> : ");
 					choix = sc.nextInt();
 					sc.nextLine();
 
@@ -125,7 +132,7 @@ public class Debat {
 		do {
 			try {
 				
-				System.out.print("\nEntrez l'argument qui va contredire :\n");
+				System.out.println("\nEntrez l'argument qui va contredire :\n");
 				afficheArguments(this.listArguments);
 				System.out.print("\n\n--> : ");
 				choix = sc.nextInt();
@@ -167,6 +174,7 @@ public class Debat {
 	public void afficheGraphe() {
 		System.out.println(grapheArg.toString());
 	}
+	
 	public void afficheArguments(List <Argument> listArguments) {
 		
 		int cpt = 1;
@@ -210,6 +218,11 @@ public class Debat {
 							break;
 						
 						case 4:
+							System.out.println("\nLa solution potentielle est : "+solutionPotentielle);
+							if (verifSolution()) {
+								System.out.println("\nLa solution est admissible.");
+							}
+							System.out.println("\nFin du programme");
 							break;
 						}
 					
@@ -229,7 +242,7 @@ public class Debat {
 
 	private void menuSolution() {
 		System.out.println("\n\nLa solution potentielle est : \t"+solutionPotentielle+"\n");
-		System.out.println("Quelle operation souhaitez-vous effectuer ?");
+		System.out.println("\nQuelle operation souhaitez-vous effectuer ?\n");
 		System.out.println("1 Ajouter un argument");
 		System.out.println("2 Retirer un argument");
 		System.out.println("3 Vérifier la solution");
@@ -351,8 +364,10 @@ public class Debat {
 		
 		for (Argument arg : grapheArg.getGraphe().keySet()) {		// On construit l'ensemble de tous les arguments contredits 	
 			if (grapheArg.getGraphe()!=null) {
-				for (Argument arg2 : grapheArg.getGraphe().get(arg)) {  // (c-a-d l'ensemble des valeurs du graphe)	
-					allArgumentsContredits.add(arg2);
+				if (grapheArg.getGraphe().get(arg)!=null) {
+					for (Argument arg2 : grapheArg.getGraphe().get(arg)) {  // (c-a-d l'ensemble des valeurs du graphe)	
+						allArgumentsContredits.add(arg2);
+					}
 				}
 			}
 		}
@@ -361,7 +376,7 @@ public class Debat {
 		for (Argument arg : solutionPotentielle) {
 			if (allArgumentsContredits.contains(arg)) { // c-a-d si l'argument est contredit par un autre 
 				for (Argument argExceptSp : allArgumentsExceptSolutionPotentielle) {
-					if (grapheArg.getGraphe()!=null) {
+					if (grapheArg.getGraphe().get(argExceptSp)!=null) {
 						if (grapheArg.getGraphe().get(argExceptSp).contains(arg)) {
 							if (!argContreditsParSp.contains(argExceptSp)) {	//un argument se défend en contredisant l'argument qui le contredit
 								System.out.println("La solution n'est pas admissible car aucun argument de la solution"

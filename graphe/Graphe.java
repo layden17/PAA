@@ -41,7 +41,7 @@ public class Graphe {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		for (Argument arg : graphe.keySet()) {
-			sb.append("\n"+ arg.toString()+" Contredit : \n");
+			sb.append("\n"+ "L'"+arg.toString()+", contredit les arguments : \n");
 			
 			if (graphe.get(arg)!=null) {
 				for (Argument ctr : graphe.get(arg)) {

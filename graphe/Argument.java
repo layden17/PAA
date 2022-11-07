@@ -18,7 +18,7 @@ public class Argument implements Comparable<Argument> {
 	}
 
 	public String toString() {
-		return "Argument [arg=" + arg + ", num=" + (num+1) + "]";
+		return "Argument " + arg ;
 	}
 
 	@Override
