@@ -1,0 +1,12 @@
+argument(TEST).
+
+argument(TEST2).
+
+argument(TEST3).
+
+argument(TEST4).
+
+
+contradiction(,TEST2).
+
+contradiction(TEST2,TEST3).
