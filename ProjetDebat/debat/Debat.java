@@ -286,7 +286,65 @@ public class Debat {
 	}
 
 
-	
+	public void affichageMenuRechercheSolution() {
+		Scanner sc = new Scanner(System.in);
+		RechercheSolution rs = new RechercheSolution(grapheArg);
+		rs.construireListeCombinaisons();
+		rs.construireListeSolutionAdmissible();
+		
+		int choix =0 ;
+
+			do {
+				try {
+					
+			
+					Menu.menuRechercheSolution();
+					System.out.print("\n--> : ");
+					choix = sc.nextInt();
+				
+					if (choix<1 || choix>4) {
+						throw new ExceptionMenu("Veuillez entrer un choix correct\n");
+					}
+
+				
+					switch (choix) {
+						case 1:
+							System.out.println("\nUne solution admissible est :\n");
+							System.out.println(rs.getAdmissible());
+							System.out.println("\nLa liste des solutions admissible est :\n");
+							rs.afficheListeSolutionAdmissible();
+							break;
+						case 2:
+							System.out.println("e");
+							break;
+						
+						case 3:
+							System.out.println("\n\n Vérification de la solution potentielle :\n\n\t" +solutionPotentielle+"\n");
+							
+							break;
+						
+						case 4:
+							System.exit(0);
+							
+							break;
+						}
+					
+				} catch (ExceptionMenu e) {
+					sc.nextLine();
+					
+					System.out.println(e.getMessage());
+				}
+				  catch (InputMismatchException e) {
+					System.out.println("Erreur, veuillez entrer un entier\n");
+					sc.nextLine();
+				}
+				
+			
+			} while (choix != 4);
+				//sc.close();
+	}
+
+
 	/**
 	 * permet d'ajouter un argument dans la collection solutionPotentielle si elle n'y figure pas 
 	 * 

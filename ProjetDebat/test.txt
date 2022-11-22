@@ -1,12 +1,16 @@
-argument(TEST).
+argument(A1).
 
-argument(TEST2).
+argument(A2).
 
-argument(TEST3).
+argument(A3).
 
-argument(TEST4).
+argument(A4).
 
 
-contradiction(,TEST2).
+contradiction(A1,A2).
+contradiction(A2,A1).
+contradiction(A2,A3).
+contradiction(A3,A2).
+contradiction(A3,A4).
+contradiction(A4,A3).
 
-contradiction(TEST2,TEST3).
