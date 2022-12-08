@@ -1,7 +1,13 @@
 package ProjetDebat.debat;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import javax.net.ssl.CertPathTrustManagerParameters;
 
 import ProjetDebat.graphe.Argument;
 import ProjetDebat.graphe.Graphe;
@@ -17,16 +23,15 @@ public class VerifSolution {
 	private Set<Argument> solutionPotentielle ;
 	private Graphe grapheArg ;
 	private boolean supressStdout ;
-	private Set <Argument> ensembleContradicteurs ;
+
 
 	
-	
+
 	public VerifSolution(Set<Argument> solutionPotentielle, Graphe grapheArg) {
 		
 		
 	    this.solutionPotentielle = solutionPotentielle ;
 		this.grapheArg = grapheArg ;
-		ensembleContradicteurs = new HashSet<Argument>();
 		argContreditsParSp = new HashSet<Argument>();
 		supressStdout = false;
 	}
@@ -36,7 +41,6 @@ public class VerifSolution {
 		
 	    this.solutionPotentielle = solutionPotentielle ;
 		this.grapheArg = grapheArg ;
-		ensembleContradicteurs = new HashSet<Argument>();
 		argContreditsParSp = new HashSet<Argument>();
 		this.supressStdout = supressStdout;
 	}
@@ -47,7 +51,7 @@ public class VerifSolution {
 	 * @return true si la solution vérifie les 2 conditions, faux sinon
 	 */
 	
-	public boolean verifSolution() {
+	public boolean verifSolutionAdmissible() {
 		
 	
 		
@@ -132,5 +136,30 @@ public class VerifSolution {
 	}
 	
 	
+	
+	public void setSolutionPotentielle(Set<Argument> solutionPotentielle) {
+		this.solutionPotentielle = solutionPotentielle;
+	}
+
+	public boolean verifSolutionPrefere(List<HashSet<Argument>> listeSolutionAdmissible) {
+
+		List<HashSet<Argument>> listeSolutionAdmissibleExceptSolPot = new ArrayList<HashSet<Argument>>(listeSolutionAdmissible);
+		listeSolutionAdmissibleExceptSolPot.remove(solutionPotentielle);
+		int cpt = 0;
+		
+		for (HashSet<Argument> solutionAdmissible : listeSolutionAdmissibleExceptSolPot) {
+			cpt =0;
+			for (Argument argument : solutionPotentielle) {
+				if (solutionAdmissible.contains(argument)) {
+					cpt ++ ;
+				}
+				if (cpt == solutionPotentielle.size()) {
+					return false ;
+				}
+			}
+		}
+		return true ;
+		
+	}
 	
 }

@@ -8,34 +8,33 @@ import ProjetDebat.graphe.Argument;
 public class Combinaison {
 
 
-	public static void combinaisonUtil(ArrayList<Argument> list, ArrayList<Argument> data,ArrayList<ArrayList<Argument>> lc , int start,
-								int end, int index, int r,int cpt)
+	public static void combinaisonUtil(ArrayList<Argument> list, ArrayList<Argument> listCombinaison,ArrayList<ArrayList<Argument>> lc , int debut,
+								int fin, int index, int taille,int cpt)
 	{
-		// Current combination is ready to be printed, print it
-		if (index == r){	
+		if (index == taille){	
 			
 			lc.add(new ArrayList<Argument>());
 			while (lc.get(cpt).size()!=0) {
 				cpt++;
 				
 			}
-			for (int j=0; j<r; j++) {
+			for (int j=0; j<taille; j++) {
 
-				lc.get(cpt).add(data.get(j));
+				lc.get(cpt).add(listCombinaison.get(j));
 
 			}
 			return;
 		}
 
 
-		for (int i=start; i<=end && end-i+1 >= r-index; i++)
+		for (int i=debut; i<=fin && fin-i+1 >= taille-index; i++)
 		{
-			data.add(index,list.get(i));
+			listCombinaison.add(index,list.get(i));
 			
-			if (index ==r) {
+			if (index ==taille) {
 				cpt+=1;
 			}
-			combinaisonUtil(list, data,lc, i+1, end, index+1, r,cpt);
+			combinaisonUtil(list, listCombinaison,lc, i+1, fin, index+1, taille,cpt);
 			
 		}
 	}

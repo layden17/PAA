@@ -8,8 +8,6 @@ import ProjetDebat.graphe.Argument;
 public class Menu {
 
 	
-	
-	
 	public static void menuSolution(Set<Argument> solutionPotentielle) {
 		System.out.println("\n\nLa solution potentielle est : \t"+solutionPotentielle+"\n");
 		System.out.println("\nQuelle operation souhaitez-vous effectuer ?\n");
@@ -33,4 +31,5 @@ public class Menu {
 		System.out.println("3) Sauvegarder la solution");
 		System.out.println("4) Fin");
 	}
+	
 }

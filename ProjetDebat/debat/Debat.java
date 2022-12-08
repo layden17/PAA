@@ -1,15 +1,18 @@
 package ProjetDebat.debat;
-import ProjetDebat.graphe.*;
 
+import ProjetDebat.graphe.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import ProjetDebat.debat.Menu;
 
 
 import up.mi.jgm.td1corrige.ExceptionMenu;
@@ -26,6 +29,10 @@ public class Debat {
 	private Graphe grapheArg ;
 	private Set<Argument> solutionPotentielle ;
 	private int nbArg=0;
+	private RechercheSolution rs ;
+	private Set<Argument> solutionAdmissble,solutionPrefere;
+	private String cheminFichier = "";
+	private Set<Argument> derniereSolution = null ;
 	
 	// Dans le cas ou on veut rentrer d'autres noms pour les args
 	/**
@@ -256,14 +263,14 @@ public class Debat {
 						
 						case 3:
 							System.out.println("\n\n Vérification de la solution potentielle :\n\n\t" +solutionPotentielle+"\n");
-							if (verif.verifSolution()) {
+							if (verif.verifSolutionAdmissible()) {
 								System.out.println("\nLa solution est admissible.");
 							}
 							break;
 						
 						case 4:
 							System.out.println("\nLa solution potentielle est : "+solutionPotentielle);
-							if (verif.verifSolution()) {
+							if (verif.verifSolutionAdmissible()) {
 								System.out.println("\nLa solution est admissible.");
 							}
 							System.out.println("\nFin du programme");
@@ -286,14 +293,21 @@ public class Debat {
 	}
 
 
-	public void affichageMenuRechercheSolution() {
+	public void affichageMenuRechercheSolution(boolean affichageGraphique) {
 		Scanner sc = new Scanner(System.in);
-		RechercheSolution rs = new RechercheSolution(grapheArg);
+		this.rs = new RechercheSolution(grapheArg);
 		rs.construireListeCombinaisons();
 		rs.construireListeSolutionAdmissible();
+		rs.construireListeSolutionPrefere();
 		
 		int choix =0 ;
-
+		boolean choix_possible = false;
+		int cptArg =0;
+		if (affichageGraphique) {
+			return ;
+		}
+		
+		
 			do {
 				try {
 					
@@ -301,25 +315,73 @@ public class Debat {
 					Menu.menuRechercheSolution();
 					System.out.print("\n--> : ");
 					choix = sc.nextInt();
+					
 				
 					if (choix<1 || choix>4) {
-						throw new ExceptionMenu("Veuillez entrer un choix correct\n");
+						throw new ExceptionMenu("\nVeuillez entrer un choix correct\n");
 					}
 
 				
 					switch (choix) {
 						case 1:
 							System.out.println("\nUne solution admissible est :\n");
-							System.out.println(rs.getAdmissible());
-							System.out.println("\nLa liste des solutions admissible est :\n");
-							rs.afficheListeSolutionAdmissible();
+							solutionAdmissble = rs.getAdmissible() ;
+							
+							for (Argument argument : solutionAdmissble) {
+								if (cptArg>0) {
+									System.out.print(",");
+								}
+								System.out.print(argument.toString().substring(9, argument.toString().length()));
+								cptArg++;
+							}
+							cptArg=0;
+							System.out.println();
+							derniereSolution = solutionAdmissble;
+							choix_possible = true;
 							break;
 						case 2:
-							System.out.println("e");
+							System.out.println("\nUne solution préferee est :\n");
+							solutionPrefere = rs.getPreferee() ;
+							for (Argument argument : solutionPrefere) {
+								if (cptArg>0) {
+									System.out.print(",");
+								}
+								System.out.print(argument.toString().substring(9, argument.toString().length()));
+								cptArg++;
+							}
+							cptArg=0;
+							choix_possible =true;
+							derniereSolution = solutionPrefere;
+							System.out.println();
+
 							break;
 						
 						case 3:
-							System.out.println("\n\n Vérification de la solution potentielle :\n\n\t" +solutionPotentielle+"\n");
+							if (!choix_possible) {
+								throw new ExceptionMenu("\nErreur, veuillez d'abord chercher une solution admissible ou préféree.\n");
+							}
+							System.out.print("Veuillez entrez le chemin du fichier dans lequel sauvegarder la solution (entrez"
+									+ " uniquement le nom si vous ne voulez pas un fichier spécifique) :\n--> : ");
+							
+							sc.nextLine();
+							cheminFichier = sc.nextLine();
+							File fichierSauvegarde = new File(cheminFichier);
+							try (BufferedWriter bw = new BufferedWriter(new FileWriter(fichierSauvegarde))) {
+								
+								for (Argument argument : derniereSolution) {
+									if (cptArg>0) {
+										bw.write(",");
+									}
+									bw.write(argument.toString().substring(9, argument.toString().length()));
+									cptArg++;
+								}
+								
+							}catch (FileNotFoundException e) {
+								System.out.print("Fichier non trouvé");
+							}
+							catch (IOException e) {
+								System.out.print("Erreur IOException");
+							}
 							
 							break;
 						
@@ -440,6 +502,12 @@ public class Debat {
 
 	
 	}
+
+
+	public RechercheSolution getRs() {
+		return rs;
+	}
+	
 	
 	
 	
