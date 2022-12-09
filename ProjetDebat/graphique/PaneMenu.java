@@ -76,10 +76,7 @@ public class PaneMenu extends Pane{
 		choiceButton.relocate(screenWidth/2-60, screenHeight*0.85);
 		alertText = new TextInputDialog();
 		alertText.setHeaderText("Chemin du fichier à sauvegarder ?");
-//		alertText.setContentText("Veuillez entrez le chemin du fichier dans lequel sauvegarder la solution (entrez"
-//				+ " uniquement le nom si vous ne voulez pas un fichier spécifique) :\n--> : ");
 		alertText.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-		//alertText.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label)node).setMinHeight(Region.USE_PREF_SIZE));
 
 			
 		
@@ -87,13 +84,13 @@ public class PaneMenu extends Pane{
 		choiceButton.setOnAction( (event)->{
 			
 			if (listButton.get(0).isSelected()) {
-				alertSolution.setSolutionAdmissible(derniereSolution);
+				derniereSolution = alertSolution.setSolutionAdmissible(derniereSolution);
 				alertSolution.showAlert();
 				listButton.get(0).setSelected(false);
 				savePossible=true;
 			}
 			if (listButton.get(1).isSelected()) {
-				alertSolution.setSolutionPrefere(derniereSolution);
+				derniereSolution = alertSolution.setSolutionPrefere(derniereSolution);
 				alertSolution.showAlert();
 				listButton.get(1).setSelected(false);
 				savePossible = true;
@@ -107,6 +104,7 @@ public class PaneMenu extends Pane{
 					alertText.showAndWait();
 					cheminFichier = alertText.getEditor().getText() ;
 					File fichierSauvegarde = new File(cheminFichier);
+					System.out.println("la der niere soljution est : "+derniereSolution);
 					try (BufferedWriter bw = new BufferedWriter(new FileWriter(fichierSauvegarde))) {
 						
 						for (Argument argument : derniereSolution) {
@@ -129,9 +127,10 @@ public class PaneMenu extends Pane{
 					alertError = new AlertError("Erreur save Solution", e);	
 					alertError.showAlert();
 				}
-				if(listButton.get(3).isSelected()) {
-					System.exit(0);
-				}
+			
+			}
+			if(listButton.get(3).isSelected()) {
+				System.exit(0);
 			}
 				
 		});

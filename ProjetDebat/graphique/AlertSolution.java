@@ -1,7 +1,5 @@
 package ProjetDebat.graphique;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import ProjetDebat.debat.Debat;
@@ -23,15 +21,19 @@ public class AlertSolution  {
 	public void showAlert() {
 		alert.showAndWait();
 	}
-	public void setSolutionAdmissible(Set<Argument> derniereSolution) {
+	public Set<Argument> setSolutionAdmissible(Set<Argument> derniereSolution) {
 		alert.setHeaderText("Une solution admissible est :");
 		derniereSolution = debat.getRs().getAdmissible();
+		System.out.println("la derniere sol est : "+derniereSolution);
 		alert.setContentText(derniereSolution.toString());
+		return derniereSolution;
 	}
-	public void setSolutionPrefere(Set<Argument> derniereSolution) {
+	public Set<Argument> setSolutionPrefere(Set<Argument> derniereSolution) {
+		System.out.println("la derniere sol est : "+derniereSolution);
 		alert.setHeaderText("Une solution préféree est :");
-		derniereSolution = debat.getRs().getAdmissible();
-		alert.setContentText(debat.getRs().getPreferee().toString());
+		derniereSolution = debat.getRs().getPreferee();
+		alert.setContentText(derniereSolution.toString());
+		return derniereSolution;
 	}
 
 }

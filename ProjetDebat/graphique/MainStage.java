@@ -14,6 +14,7 @@ public class MainStage extends Application{
 	private double screenHeight;
 	private Scene scene;
 	private Pane paneMenu;
+	private Debat debat ;
 	
 	private static ControllerDebat controller;
 

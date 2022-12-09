@@ -17,6 +17,7 @@ public class DebatGraphique{
 //		gThread.run();
 
 		Application.launch(MainStage.class, (java.lang.String[]) null);
+
 		
 		}
 	
