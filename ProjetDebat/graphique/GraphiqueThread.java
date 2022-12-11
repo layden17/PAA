@@ -13,7 +13,7 @@ public class GraphiqueThread extends Thread {
 	}
 	
 	public void run() {
-		DebatGraphique.main(args,debat);
+		DebatGraphique.launchGraphique(args,debat);
 	}
 	
 }

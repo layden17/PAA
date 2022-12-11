@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 import ProjetDebat.debat.Debat;
@@ -35,7 +34,6 @@ public class PaneMenu extends Pane{
 	private Debat debat;
 	private AlertSolution alertSolution;
 	private boolean savePossible = false;
-	private Scanner sc;
 	private String cheminFichier;
 	private Set<Argument> derniereSolution;
 	private int cptArg;
@@ -48,7 +46,6 @@ public class PaneMenu extends Pane{
 		this.debat = controller.getDataDebat();
 		alertSolution = new AlertSolution(debat,"Affichage Solution");
 		derniereSolution = new HashSet<Argument>();
-		sc = new Scanner(System.in);
 		group = new ToggleGroup();
 		lab = new Label("Que souhaitez vous faire");
 		choiceButton = new Button("Ok");
@@ -104,7 +101,6 @@ public class PaneMenu extends Pane{
 					alertText.showAndWait();
 					cheminFichier = alertText.getEditor().getText() ;
 					File fichierSauvegarde = new File(cheminFichier);
-					System.out.println("la der niere soljution est : "+derniereSolution);
 					try (BufferedWriter bw = new BufferedWriter(new FileWriter(fichierSauvegarde))) {
 						
 						for (Argument argument : derniereSolution) {

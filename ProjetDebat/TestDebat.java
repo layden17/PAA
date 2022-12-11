@@ -1,10 +1,9 @@
 package ProjetDebat;
 
 
+import java.time.Year;
 import java.util.Scanner;
-
 import ProjetDebat.graphique.*;
-import javafx.application.Application;
 import ProjetDebat.debat.*;
 import ProjetDebat.file.*;
 
@@ -12,11 +11,18 @@ public class TestDebat {
 
 	public static void main(String[] args) {
 		
-		System.out.print("Interface Graphique ? (Y/N)\n--> :");
 		Scanner scanner = new Scanner(System.in);
-		//char choix = scanner.next().charAt(0);
-		char choix = 'Y';
+		char choix ='0' ;
 		boolean affichageGraphique = false;
+		do {
+			try {
+
+				System.out.print("Interface Graphique ? (Y/N)\n--> : ");
+				choix = scanner.next().charAt(0);
+			} catch (IllegalArgumentException e) {
+				System.out.println("\nErreur, veuillez entrer Y ou N.");
+			}
+		} while (choix != 'Y' && choix != 'N');
 		
 		if (args.length>0) {
 			System.out.println("Le graphe a été généré à partir du fichier entré en paramètre :\n");
@@ -25,14 +31,14 @@ public class TestDebat {
 			fd.lireFichier();
 			fd.creerGrapheFichier();
 			Debat debat = new Debat(fd.getGrapheArg());
-			//debat.afficheGraphe();
+			debat.afficheGraphe();
 			if (choix == 'Y') {
 				affichageGraphique = true;
 			}
 			debat.affichageMenuRechercheSolution(affichageGraphique);
 			
 			if (choix == 'Y') {
-				DebatGraphique.main(args, debat);
+				DebatGraphique.launchGraphique(args, debat);
 
 			}
 			

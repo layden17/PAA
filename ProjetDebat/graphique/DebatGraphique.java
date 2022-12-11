@@ -7,7 +7,7 @@ import javafx.application.Application;
 public class DebatGraphique{
 
 	
-	public static void main (String [] args,Debat debat) {
+	public static void launchGraphique (String [] args,Debat debat) {
 		
 		ControllerDebat controller = new ControllerDebat();
 		controller.setDataDebat(debat);

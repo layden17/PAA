@@ -375,6 +375,7 @@ public class Debat {
 									bw.write(argument.toString().substring(9, argument.toString().length()));
 									cptArg++;
 								}
+							System.out.println("Fichier créé : "+cheminFichier);
 								
 							}catch (FileNotFoundException e) {
 								System.out.print("Fichier non trouvé");
